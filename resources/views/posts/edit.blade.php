@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.main')
 @section('title', 'Create Post')
 @section('content')
     <header class="simple masthead">
@@ -26,11 +26,21 @@
                     </div>
                     <div class="form-group">
                         <label>Краткое описание</label>
-                        <input type="text" class="form-control" name="description" value="{{ old('description', $post->description) }}">
+                        <input type="text" class="form-control" name="description"
+                               value="{!!   old('description', $post->description) !!}">
+                    </div>
+                    <div class="form-group">
+                        <label>Теги поста</label>
+                        @php //dd($post->tags->pluck('name')->implode(',')) @endphp
+                        <input type="text"
+                               class="form-control"
+                               name="tags"
+                               value="{{old('tags', $post->tags->pluck('name')->implode(','))}}"
+                        >
                     </div>
                     <div class="form-group">
                         <label>Содержание поста</label>
-                        <textarea class="form-control" name="content">{{ old('content', $post->content) }}</textarea>
+                        <textarea class="form-control" name="content">{!!  old('content', $post->content) !!}</textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Изменить</button>
                 </form>

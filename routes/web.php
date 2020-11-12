@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FeedbacksController;
+use App\Http\Controllers\TagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +17,30 @@ use App\Http\Controllers\FeedbacksController;
 */
 
 Route::get('/', function(){
-    return redirect()->route('posts.index');
+return view('index');
 });
-Route::resource('posts', PostsController::class);
+
+
+Route::resource('/posts', PostsController::class)->names([
+'index' => 'posts.index',
+'create' => 'posts.create',
+'store' => 'posts.store',
+'show' => 'posts.show',
+'edit' => 'posts.edit',
+'update' => 'posts.update',
+'destroy' => 'posts.destroy',
+]);
+Route::get('/posts/tags/{tag}', [TagsController::class, 'index'])->name('posts_for_tag');
+
 
 Route::post('/admin/feedbacks/store', [FeedbacksController::class, 'store'])->name('feedbacks.store');
 Route::get('/admin/feedbacks', [FeedbacksController::class, 'index'])->name('feedbacks');
 
 Route::get('/about', function(){
-    return view('about');
+return view('about');
 })->name('about');
 Route::get('/contacts', function(){
-    return view('contacts');
+return view('contacts');
 })->name('contacts');
+
+Auth::routes();

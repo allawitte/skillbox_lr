@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.main')
 @section('title', 'Create Post')
 @section('content')
     <header class="simple masthead">
