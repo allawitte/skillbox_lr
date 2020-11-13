@@ -20,6 +20,10 @@ Route::get('/', function(){
 return view('index');
 });
 
+Route::get('/test', function(\App\Service\PushAll $pushAll){
+    dd(app($pushAll));
+    //dd(app('example'));
+});
 
 Route::resource('/posts', PostsController::class)->names([
 'index' => 'posts.index',

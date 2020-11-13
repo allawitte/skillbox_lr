@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\PriceFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PHPUnit\Util\Filesystem;
 
 class PostsController extends Controller
 {
@@ -15,10 +17,10 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function show(Post $post)
+    public function show(Post $post, PriceFormatter $priceFormatter)
     {
-        $tags = Tag::all();
-        return view('posts.show', compact('post', 'tags'));
+        dd($priceFormatter->format(200));
+        return view('posts.show', compact('post'));
     }
 
     public function create()
