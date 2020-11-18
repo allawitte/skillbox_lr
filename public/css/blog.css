@@ -401,6 +401,10 @@ footer .copyright {
 header.masthead {
     width: 100%;
 }
+header.masthead .btn.btn-link {
+    color: #ffffff;
+    padding-left: 0;
+}
 
 header.masthead.simple .post-heading {
     padding: 80px 0 40px 0;

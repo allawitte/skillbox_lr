@@ -44,4 +44,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Post');
     }
+
+    public static function admin()
+    {
+        return static::where('role', '=', 'admin')->first();
+
+    }
 }

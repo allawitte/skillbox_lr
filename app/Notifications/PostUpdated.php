@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostChanged extends Notification
+class PostUpdated extends Notification
 {
     use Queueable;
 
@@ -29,7 +29,7 @@ class PostChanged extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -41,9 +41,9 @@ class PostChanged extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Статья ' . $this->post->title . ' изменена')
+            ->line('Статья ' . $this->post->title . ' изменена')
+            ->action('Читать на сайте', url('/posts/'.$this->post->slug));
     }
 
     /**

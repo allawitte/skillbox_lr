@@ -31,7 +31,6 @@
             </div>
             <div class="form-group">
                 <label>Теги поста</label>
-                @php //dd($post->tags->pluck('name')->implode(',')) @endphp
                 <input type="text"
                        class="form-control"
                        name="tags"
@@ -47,13 +46,13 @@
     </div>
     </div>
     <div class="row">
-        <div class="col-lg-2">
-            <p>
-            <form method="POST" action="{{route('posts.destroy',['post' => $post->slug])}}">
-                {{csrf_field()}}
-                @method('DELETE')
-                <input type="submit" class="btn btn-danger" value="Удалить">
-            </form>
-            </p>
+            <div class="col-lg-8 mx-auto">
+                <p>
+                <form method="POST" action="{{route('posts.destroy',['post' => $post->slug])}}">
+                    {{csrf_field()}}
+                    @method('DELETE')
+                    <input type="submit" class="btn btn-danger" value="Удалить">
+                </form>
+                </p>
         </div>
 @endsection

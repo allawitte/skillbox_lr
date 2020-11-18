@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostDeleted extends Notification
+class PostCreated extends Notification
 {
     use Queueable;
 
@@ -15,11 +15,9 @@ class PostDeleted extends Notification
      *
      * @return void
      */
-    public $post;
-
-    public function __construct($post)
+    public function __construct()
     {
-        $this->post = $post;
+        //
     }
 
     /**
@@ -30,7 +28,7 @@ class PostDeleted extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -42,9 +40,9 @@ class PostDeleted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Статья ' . $this->post->title . ' удалена')
-            ->line('Статья ' . $this->post->title . 'удалена')
-            ->action('Перейти на сайт', url('/'));
+            ->subject('Создана статья ' . $this->post->title)
+            ->line('Создана статья ' . $this->post->title . ' изменена')
+            ->action('Читать на сайте ', url('/posts/' . $this->post->slug));
     }
 
     /**

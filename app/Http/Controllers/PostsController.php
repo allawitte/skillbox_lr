@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\PostCreated;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Notifications\PostChanged;
@@ -10,7 +9,6 @@ use App\Notifications\PostDeleted;
 use App\PriceFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use PHPUnit\Util\Filesystem;
 
 class PostsController extends Controller
 {
@@ -26,7 +24,7 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function show(Post $post, PriceFormatter $priceFormatter)
+    public function show(Post $post)
     {
         return view('posts.show', compact('post'));
     }
@@ -40,17 +38,15 @@ class PostsController extends Controller
     {
         $fields = request()->validate([
             'title' => 'required|min:2|max:50|unique:posts',
-            'content' => 'required'
+            'content' => 'required',
+            'description' => 'string|max:200'
         ]);
         $fields['slug'] = Str::slug($request->get('title'));
         $fields['user_id'] = auth()->id();
         $post = Post::create(
             $fields
         );
-       // event(new \App\Events\PostCreated($post));
-
         flash('Статья успешно добавлена');
-
         return redirect()->route('posts.index');
     }
 
@@ -63,10 +59,10 @@ class PostsController extends Controller
     public function update(Request $request, Post $post)
     {
         $fields = $request->validate([
-            'title' => 'required|min:2|max:50|unique:posts'. ',id,' . $post->id,
+            'title' => 'required|min:2|max:50|unique:posts' . ',id,' . $post->id,
             'content' => 'required'
         ]);
-        if($post->title == $request->get('title')){
+        if ($post->title == $request->get('title')) {
             $fields['slug'] = Str::slug($request->get('title'));
         }
 
@@ -76,20 +72,12 @@ class PostsController extends Controller
         $post->user->notify(new PostChanged());
 
         $postTags = $post->tags->keyBy('name');
-        $tags = collect(explode(',', $request->get('tags')))->keyBy(function($item){
+        $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
             return $item;
         });
         $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
         $tagsToAttach = $tags->diffKeys($postTags);
-//        $tagsToDetach = $postTags->diffKeys($tags);
-//        foreach ($tagsToAttach as $tag){
-//            $tag = Tag::firstOrCreate(['name' => $tag]);
-//            $post->tags()->attach($tag);
-//        }
-//        foreach ($tagsToDetach as $tag){
-//            $post->tags()->detach($tag);
-//        }
-        foreach ($tagsToAttach as $tag){
+        foreach ($tagsToAttach as $tag) {
             $tag = Tag::firstOrCreate(['name' => $tag]);
             $syncIds[] = $tag->id;
         }

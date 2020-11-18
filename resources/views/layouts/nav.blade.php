@@ -25,12 +25,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/contacts')}}">Контакты</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('posts.create')}}">Добавить статью</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url('feedbacks')}}">Админ. Раздел</a>
-                </li>
+                @if(auth()->check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('posts.create')}}">Добавить статью</a>
+                    </li>
+                    @if(auth()->id() ==1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('feedbacks')}}">Админ. Раздел</a>
+                        </li>
+                    @endif
+                @endif
             </ul>
         </div>
         <div class="navbar-collaps">
@@ -41,9 +45,11 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
                 @else
                     <li class="nav-item">
-                        <form action="{{ url('/logout') }}" method="post">
+                        <form action="{{ url('/logout') }}" method="post" class="mb-0">
                             @csrf
-                            <button class="btn btn-link" style="color: #fff;"><i class="fa fa-btn fa-sign-out nav-item"></i>Logout</button>
+                            <button class="btn btn-link" style="color: #fff;"><i
+                                        class="fa fa-btn fa-sign-out nav-item"></i>Logout
+                            </button>
                         </form>
                     </li>
                 @endif

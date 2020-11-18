@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\PostCreated as Post;
-use App\Mail\PostCreated;
+use App\Mail\PostDeleted;
+use App\Events\PostDeleted as Post;
 use App\Models\User;
 
-class SendPostCreatedNotification
+class SendPostDeletedNotification
 {
     /**
      * Create the event listener.
@@ -27,7 +27,7 @@ class SendPostCreatedNotification
     public function handle(Post $event)
     {
         \Mail::to(User::admin()->email)->send(
-            new PostCreated($event->post)
+            new PostDeleted($event->post)
         );
     }
 }
