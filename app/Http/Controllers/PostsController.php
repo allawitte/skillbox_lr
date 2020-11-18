@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
-use App\Notifications\PostChanged;
+use App\Notifications\PostUpdated;
 use App\Notifications\PostDeleted;
-use App\PriceFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -69,7 +68,7 @@ class PostsController extends Controller
         $post->update(
             $fields
         );
-        $post->user->notify(new PostChanged());
+        $post->user->notify(new PostUpdated($post));
 
         $postTags = $post->tags->keyBy('name');
         $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
