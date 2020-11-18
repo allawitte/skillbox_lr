@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PostCreated;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Notifications\PostChanged;
+use App\Notifications\PostDeleted;
 use App\PriceFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,6 +14,12 @@ use PHPUnit\Util\Filesystem;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index']]);
+        $this->middleware('can:update, post')->except(['index', 'store', 'create']);
+    }
+
     public function index()
     {
         $posts = Post::with('tags')->latest()->get();
@@ -19,7 +28,6 @@ class PostsController extends Controller
 
     public function show(Post $post, PriceFormatter $priceFormatter)
     {
-        dd($priceFormatter->format(200));
         return view('posts.show', compact('post'));
     }
 
@@ -35,14 +43,20 @@ class PostsController extends Controller
             'content' => 'required'
         ]);
         $fields['slug'] = Str::slug($request->get('title'));
-        Post::create(
+        $fields['user_id'] = auth()->id();
+        $post = Post::create(
             $fields
         );
+       // event(new \App\Events\PostCreated($post));
+
+        flash('Статья успешно добавлена');
+
         return redirect()->route('posts.index');
     }
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('posts.edit', compact('post'));
     }
 
@@ -59,6 +73,7 @@ class PostsController extends Controller
         $post->update(
             $fields
         );
+        $post->user->notify(new PostChanged());
 
         $postTags = $post->tags->keyBy('name');
         $tags = collect(explode(',', $request->get('tags')))->keyBy(function($item){
@@ -80,12 +95,16 @@ class PostsController extends Controller
         }
 
         $post->tags()->sync($syncIds);
+        flash('Статья успешно отредактирована');
         return redirect()->route('posts.index');
     }
 
     public function destroy(Post $post)
     {
+        $article = $post;
         $post->delete();
+        $post->user->notify(new PostDeleted($article));
+        flash('Статья успешно удалена', 'warning');
         return redirect()->route('posts.index');
     }
 }

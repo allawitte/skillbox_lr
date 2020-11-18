@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Blog')
+@section('title', config('app.name'))
 @section('header')
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('/img/home-bg.jpg')">
@@ -18,7 +18,7 @@
 @endsection
 @section('content')
     <!-- Main Content -->
-
+<div class="container d-flex">
     <div class="col-lg-8 col-md-10 mx-auto">
     @foreach($posts as $post)
         @include('posts.item')
@@ -33,3 +33,4 @@
 @section('sidebar')
     @include('layouts.sidebar')
 @endsection
+</div>

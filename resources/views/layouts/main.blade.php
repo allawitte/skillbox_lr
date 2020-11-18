@@ -22,17 +22,10 @@
 </head>
 
 <body>
-<!-- Bootstrap core JavaScript -->
-<script src="/js/jquery/jquery.min.js"></script>
-<script src="/js/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom scripts for this template -->
-<script src="/js/clean-blog.min.js"></script>
-
-</body>
 @include('layouts.nav')
 @yield('header')
-<div class="container">
+@include('layouts.flash-message')
+<div class="container-fluid">
     <div class="row">
         @yield('content')
         @yield('sidebar')
@@ -41,4 +34,13 @@
 <hr>
 
 @include('layouts.footer')
+<!-- Bootstrap core JavaScript -->
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/js/clean-blog.min.js"></script>
+
+</body>
+
 </html>
