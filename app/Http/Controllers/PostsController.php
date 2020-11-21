@@ -8,6 +8,7 @@ use App\Notifications\PostUpdated;
 use App\Notifications\PostDeleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\Post as PostValidate;
 
 class PostsController extends Controller
 {
@@ -35,16 +36,20 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
-        $fields = request()->validate([
-            'title' => 'required|min:2|max:50|unique:posts',
-            'content' => 'required',
-            'description' => 'string|max:200'
-        ]);
+        $fields = request()->all();
         $fields['slug'] = Str::slug($request->get('title'));
         $fields['user_id'] = auth()->id();
         $post = Post::create(
             $fields
         );
+        $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
+            return $item;
+        });
+        foreach ($tags as $tag) {
+            $tag = Tag::firstOrCreate(['name' => $tag]);
+            $syncIds[] = $tag->id;
+        }
+        $post->tags()->sync($syncIds);
         flash('Статья успешно добавлена');
         return redirect()->route('posts.index');
     }
@@ -57,11 +62,8 @@ class PostsController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        $fields = $request->validate([
-            'title' => 'required|min:2|max:50|unique:posts' . ',id,' . $post->id,
-            'content' => 'required'
-        ]);
-        if ($post->title == $request->get('title')) {
+        $fields = $request->all();
+        if ($post->title != $request->get('title')) {
             $fields['slug'] = Str::slug($request->get('title'));
         }
 

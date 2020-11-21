@@ -2,7 +2,7 @@
     # Удалена статья {{$post->title}}
 
     The body of your message.
-    @component('mail::button', ['url' => '/posts'])
+    @component('mail::button', ['url' => route('posts')])
         Смотреть блог
     @endcomponent
 

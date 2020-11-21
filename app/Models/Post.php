@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\PostCreated;
 use App\Events\PostDeleted;
 use App\Events\PostUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Events\PostCreated;
 
 class Post extends Model
 {
@@ -15,18 +15,21 @@ class Post extends Model
         'updated' => PostUpdated::class,
         'deleted' => PostDeleted::class,
     ];
+    public $guarded = ['tags'];
 
     public function getRouteKeyName()
     {
         return 'slug';
     }
 
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function tags(){
-        return$this->belongsToMany('App\Models\Tag');
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
 }

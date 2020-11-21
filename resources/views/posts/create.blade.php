@@ -16,22 +16,10 @@
 @endsection
 @section('content')
     <div class="col-lg-8 col-md-10 mx-auto">
-        @include('layouts.errors')
-        <form method="post" action="{{route('posts.store')}}">
-            {{csrf_field()}}
-            <div class="form-group">
-                <label>Название</label>
-                <input type="text" class="form-control" name="title" value="{{ old('title') }}">
-            </div>
-            <div class="form-group">
-                <label>Краткое описание</label>
-                <input type="text" class="form-control" name="description" value="{{ old('description') }}">
-            </div>
-            <div class="form-group">
-                <label>Содержание поста</label>
-                <textarea class="form-control" name="content">{{ old('content') }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </form>
+    @include('layouts.errors')
+    <form method="post" action="{{route('posts.store')}}">
+    @include('posts.single')
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
     </div>
 @endsection

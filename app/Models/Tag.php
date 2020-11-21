@@ -9,7 +9,7 @@ class Tag extends Model
     use HasFactory;
 
     public function posts(){
-        return $this->belongsToMany('App\Models\Post');
+        return $this->belongsToMany(Post::class);
     }
 
     public function getRouteKeyName()

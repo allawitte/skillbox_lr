@@ -19,40 +19,19 @@
         @include('layouts.errors')
         <form method="post" action="{{route('posts.update', ['post' => $post->slug])}}">
             @method('PATCH')
-            {{csrf_field()}}
-            <div class="form-group">
-                <label>Название</label>
-                <input type="text" class="form-control" name="title" value="{{ old('title', $post->title) }}">
-            </div>
-            <div class="form-group">
-                <label>Краткое описание</label>
-                <input type="text" class="form-control" name="description"
-                       value="{!!   old('description', $post->description) !!}">
-            </div>
-            <div class="form-group">
-                <label>Теги поста</label>
-                <input type="text"
-                       class="form-control"
-                       name="tags"
-                       value="{{old('tags', $post->tags->pluck('name')->implode(','))}}"
-                >
-            </div>
-            <div class="form-group">
-                <label>Содержание поста</label>
-                <textarea class="form-control" name="content">{!!  old('content', $post->content) !!}</textarea>
-            </div>
+            @include('posts.single')
             <button type="submit" class="btn btn-primary">Изменить</button>
         </form>
     </div>
-    </div>
     <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <p>
-                <form method="POST" action="{{route('posts.destroy',['post' => $post->slug])}}">
-                    {{csrf_field()}}
-                    @method('DELETE')
-                    <input type="submit" class="btn btn-danger" value="Удалить">
-                </form>
-                </p>
+        <div class="col-lg-8 mx-auto">
+            <p>
+            <form method="POST" action="{{route('posts.destroy',['post' => $post->slug])}}">
+                {{csrf_field()}}
+                @method('DELETE')
+                <input type="submit" class="btn btn-danger" value="Удалить">
+            </form>
+            </p>
         </div>
+    </div>
 @endsection
