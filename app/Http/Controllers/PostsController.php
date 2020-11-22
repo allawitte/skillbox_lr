@@ -34,22 +34,15 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(PostValidate $request)
     {
-        $fields = request()->all();
+        $fields = $request->validate($request->rules());
         $fields['slug'] = Str::slug($request->get('title'));
         $fields['user_id'] = auth()->id();
         $post = Post::create(
             $fields
         );
-        $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
-            return $item;
-        });
-        foreach ($tags as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-        $post->tags()->sync($syncIds);
+        $post->setTags($request, false);
         flash('Статья успешно добавлена');
         return redirect()->route('posts.index');
     }
@@ -60,9 +53,9 @@ class PostsController extends Controller
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(PostValidate $request, Post $post)
     {
-        $fields = $request->all();
+        $fields = $request->validate($request->rules($post->id));
         if ($post->title != $request->get('title')) {
             $fields['slug'] = Str::slug($request->get('title'));
         }
@@ -71,19 +64,8 @@ class PostsController extends Controller
             $fields
         );
         $post->user->notify(new PostUpdated($post));
+        $post->setTags($request, true);
 
-        $postTags = $post->tags->keyBy('name');
-        $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
-            return $item;
-        });
-        $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
-        $tagsToAttach = $tags->diffKeys($postTags);
-        foreach ($tagsToAttach as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-
-        $post->tags()->sync($syncIds);
         flash('Статья успешно отредактирована');
         return redirect()->route('posts.index');
     }

@@ -2,7 +2,7 @@
     # Изменена статья {{$post->title}}
 
     The body of your message.
-    @component('mail::button', ['url' => route('posts.show',$post->slug))
+    @component('mail::button', ['url' => route('posts.show',$post->slug)])
         Читать статью
     @endcomponent
 

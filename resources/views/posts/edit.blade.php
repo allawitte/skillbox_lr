@@ -19,7 +19,7 @@
         @include('layouts.errors')
         <form method="post" action="{{route('posts.update', ['post' => $post->slug])}}">
             @method('PATCH')
-            @include('posts.single')
+            @include('posts.single', ['post' =>$post])
             <button type="submit" class="btn btn-primary">Изменить</button>
         </form>
     </div>
