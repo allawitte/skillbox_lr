@@ -32,11 +32,7 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function setTags($request, $update){
-        $tags = collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
-            return $item;
-        });
-        if($update){
+    public function setTags($tags){
             $postTags = $this->tags->keyBy('name');
             $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
             $tagsToAttach = $tags->diffKeys($postTags);
@@ -44,12 +40,6 @@ class Post extends Model
                 $tag = Tag::firstOrCreate(['name' => $tag]);
                 $syncIds[] = $tag->id;
             }
-        } else {
-            foreach ($tags as $tag) {
-                $tag = Tag::firstOrCreate(['name' => $tag]);
-                $syncIds[] = $tag->id;
-            }
-        }
         $this->tags()->sync($syncIds);
     }
 

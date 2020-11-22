@@ -16,9 +16,9 @@
 @endsection
 @section('content')
     <div class="col-lg-8 col-md-10 mx-auto">
-    @include('layouts.errors', ['post' => new Post()])
+    @include('layouts.errors')
     <form method="post" action="{{route('posts.store')}}">
-    @include('posts.single')
+    @include('posts.single', ['post' => new Post()])
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
     </div>

@@ -33,6 +33,11 @@ class PostsController extends Controller
     {
         return view('posts.create');
     }
+    private function getTagsCollection($request){
+        collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
+            return $item;
+        });
+    }
 
     public function store(PostValidate $request)
     {
@@ -42,7 +47,7 @@ class PostsController extends Controller
         $post = Post::create(
             $fields
         );
-        $post->setTags($request, false);
+        $post->setTags($this->getTagsCollection($request));
         flash('Статья успешно добавлена');
         return redirect()->route('posts.index');
     }
@@ -64,7 +69,7 @@ class PostsController extends Controller
             $fields
         );
         $post->user->notify(new PostUpdated($post));
-        $post->setTags($request, true);
+        $post->setTags($this->getTagsCollection($request));
 
         flash('Статья успешно отредактирована');
         return redirect()->route('posts.index');
