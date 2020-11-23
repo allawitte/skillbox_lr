@@ -18,7 +18,7 @@
     <div class="col-lg-8 col-md-10 mx-auto">
     @include('layouts.errors')
     <form method="post" action="{{route('posts.store')}}">
-    @include('posts.single', ['post' => new Post()])
+    @include('posts.single', ['post' => new App\Models\Post()])
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
     </div>

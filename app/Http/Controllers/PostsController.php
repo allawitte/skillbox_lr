@@ -33,8 +33,9 @@ class PostsController extends Controller
     {
         return view('posts.create');
     }
+
     private function getTagsCollection($request){
-        collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
+        return collect(explode(',', $request->get('tags')))->keyBy(function ($item) {
             return $item;
         });
     }

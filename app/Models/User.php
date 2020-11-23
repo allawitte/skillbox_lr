@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public static function admin()
     {
-        return static::where('role', '=', 'admin')->first();
+        return static::find(1);
 
     }
 }
