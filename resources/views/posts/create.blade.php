@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.main')
 @section('title', 'Create Post')
-@section('content')
+@section('header')
     <header class="simple masthead">
         <div class="overlay"></div>
         <div class="container">
@@ -13,27 +13,13 @@
             </div>
         </div>
     </header>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                @include('layouts.errors')
-                <form method="post" action="{{route('posts.store')}}">
-                    {{csrf_field()}}
-                    <div class="form-group">
-                        <label>Название</label>
-                        <input type="text" class="form-control" name="title" value="{{ old('title') }}">
-                    </div>
-                    <div class="form-group">
-                        <label>Краткое описание</label>
-                        <input type="text" class="form-control" name="description" value="{{ old('description') }}">
-                    </div>
-                    <div class="form-group">
-                        <label>Содержание поста</label>
-                        <textarea class="form-control" name="content">{{ old('content') }}</textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
-            </div>
-        </div>
+@endsection
+@section('content')
+    <div class="col-lg-8 col-md-10 mx-auto">
+    @include('layouts.errors')
+    <form method="post" action="{{route('posts.store')}}">
+    @include('posts.single', ['post' => new App\Models\Post()])
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
     </div>
 @endsection

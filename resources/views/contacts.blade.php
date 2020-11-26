@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.main')
 @section('title', 'Contacts')
 @section('content')
     <!-- Page Header -->

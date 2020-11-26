@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FeedbacksController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\TagsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +16,19 @@ use App\Http\Controllers\FeedbacksController;
 |
 */
 
-Route::get('/', function(){
-    return redirect()->route('posts.index');
+Route::get('/', function () {
+    return view('index');
 });
-Route::resource('posts', PostsController::class);
-
+Route::resource('/posts', PostsController::class);
+Route::get('/posts/tags/{tag}', [TagsController::class, 'index'])->name('posts_for_tag');
 Route::post('/admin/feedbacks/store', [FeedbacksController::class, 'store'])->name('feedbacks.store');
 Route::get('/admin/feedbacks', [FeedbacksController::class, 'index'])->name('feedbacks');
 
-Route::get('/about', function(){
+Route::get('/about', function () {
     return view('about');
 })->name('about');
-Route::get('/contacts', function(){
+Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
+
+Auth::routes();

@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.main')
 @section('title', 'Blog')
 @section('content')
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <header class="masthead" style="background-image: url('img/home.jpg'); height: 100vh; width: 100%">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
@@ -15,20 +15,4 @@
             </div>
         </div>
     </header>
-
-    <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                @foreach($posts as $post)
-                @include('posts.item')
-                @endforeach
-                <!-- Pager -->
-                <div class="clearfix">
-                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
 @endsection
