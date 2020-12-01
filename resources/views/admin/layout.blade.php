@@ -21,8 +21,7 @@
     =========================================================
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
-    <link href="/assets/css/admin.css" rel="stylesheet">
-    <link href="/assets/css/admin-styles.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
@@ -74,7 +73,7 @@
                                     <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                        class="p-0 btn admin-profile">
                                         <img width="42" class="rounded-circle"
-                                             src="/assets/<?= Auth::user()->image ? 'uploads/' . Auth::user()->image : 'images/avatars/user.png'?>"
+                                             src="<?= Auth::user()->image ? 'uploads/' . Auth::user()->image : '/img/avatars/user.png'?>"
                                              alt="">
                                         <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                     </a>
@@ -129,7 +128,7 @@
                     </button>
                 </span>
             </div>
-            @include('admin.sidebar)
+            @include('admin.sidebar')
         </div>
         <!-- end of header -->
     @yield('content')
@@ -153,11 +152,8 @@
     </div>
 </div>
 </div>
-<script type="text/javascript" src="/assets/scripts/main.js"></script>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/js/admin.js"></script>
 @stack('scripts')
-<script src="/assets/scripts/scripts.js"></script>
 </body>
 </html>

@@ -1,2 +1,2 @@
 require('./bootstrap');
-require('resources/assets/js/clean-blog' );
+require('./assets/clean-blog.js' );

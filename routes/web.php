@@ -3,6 +3,7 @@
 use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,7 @@ Route::get('/about', function () {
 Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Auth::routes();

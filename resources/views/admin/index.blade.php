@@ -1,4 +1,4 @@
-@extends('admin.layout)
+@extends('admin.layout')
 @section('content')
     @php
     $posts = 1; $users = 1; $subscribers = 1; $views = 1;

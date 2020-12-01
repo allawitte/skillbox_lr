@@ -11,8 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix
+    .js('resources/js/app.js', 'public/js')
+    .js('resources/js/admin.js', 'public/js')
+    .scripts([
+        'resources/js/assets/crop-img/dropzone.js',
+        'resources/js/assets/crop-img/cropper.js',
+        'resources/js/assets/crop-img/crop.js',
+    ], 'public/js/cropper.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/admin.scss', 'public/css');
 
-mix.copy(['resources/assets/sass/admin/fonts'], 'public/css/fonts');
+mix.copy(['resources/sass/assets/admin/fonts'], 'public/fonts');

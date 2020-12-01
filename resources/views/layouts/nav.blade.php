@@ -31,7 +31,7 @@
                     </li>
                     @if(auth()->id() ==1)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('feedbacks')}}">Админ. Раздел</a>
+                            <a class="nav-link" href="{{route('admin')}}">Админ. Раздел</a>
                         </li>
                     @endif
                 @endif
