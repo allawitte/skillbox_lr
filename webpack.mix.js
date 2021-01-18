@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/admin.js', 'public/js')
+    .vue({version: 2})
     .scripts([
         'resources/js/assets/crop-img/dropzone.js',
         'resources/js/assets/crop-img/cropper.js',
