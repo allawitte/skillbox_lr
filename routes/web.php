@@ -35,3 +35,6 @@ Route::get('/contacts', function () {
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Auth::routes();
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

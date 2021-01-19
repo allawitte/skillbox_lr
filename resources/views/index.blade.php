@@ -11,6 +11,9 @@
                         <h1>Clean Blog</h1>
                         <span class="subheading">A Blog Theme by Start Bootstrap</span>
                     </div>
+                    <div id="app">
+                        <example-component></example-component>
+                    </div>
                 </div>
             </div>
         </div>
